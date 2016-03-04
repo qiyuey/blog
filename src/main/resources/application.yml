@@ -1,0 +1,18 @@
+logging:
+  level:
+    cn:
+      edu:
+        nuaa:
+          burning: debug
+
+
+spring:
+  redis:
+    host: nuaa.qiyuey.com
+    port: 6389
+    password: yccy
+
+
+  data:
+    mongodb:
+      uri: mongodb://nuaa:yccy@nuaa.qiyuey.com:27027/blog
