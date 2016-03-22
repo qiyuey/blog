@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.edu.nuaa.burning.model.Test;
 import cn.edu.nuaa.burning.service.TestService;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by yuchuan.
  */
+@Component
 @Path("/test")
 public class TestResource {
 
@@ -23,5 +25,4 @@ public class TestResource {
     public Test getTest() {
         return testService.get();
     }
-
 }
