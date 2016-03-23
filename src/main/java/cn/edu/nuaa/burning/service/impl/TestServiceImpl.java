@@ -9,7 +9,7 @@ import cn.edu.nuaa.burning.service.TestService;
 
 /**
  * Created by yuchuan.
- * pomelo
+ * pomelo test
  */
 @Service
 public class TestServiceImpl implements TestService {
