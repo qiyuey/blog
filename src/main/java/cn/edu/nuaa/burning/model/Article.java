@@ -10,6 +10,9 @@ import java.util.List;
  */
 
 @Data
+/**
+ * 定义博文类
+ */
 public class Article {
     private String id;
     private String title;
