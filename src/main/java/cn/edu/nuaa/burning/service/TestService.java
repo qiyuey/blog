@@ -1,5 +1,7 @@
 package cn.edu.nuaa.burning.service;
 
+import org.springframework.data.domain.Slice;
+
 import cn.edu.nuaa.burning.model.Test;
 
 /**
@@ -7,4 +9,6 @@ import cn.edu.nuaa.burning.model.Test;
  */
 public interface TestService {
     Test get();
+
+    Slice<Test> getAll();
 }

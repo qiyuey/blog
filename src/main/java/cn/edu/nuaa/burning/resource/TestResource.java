@@ -5,10 +5,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
+import org.springframework.stereotype.Component;
 
 import cn.edu.nuaa.burning.model.Test;
 import cn.edu.nuaa.burning.service.TestService;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by yuchuan.
@@ -24,5 +25,12 @@ public class TestResource {
     @Produces("application/json")
     public Test getTest() {
         return testService.get();
+    }
+
+    @GET
+    @Path("all")
+    @Produces("application/json")
+    public Slice<Test> getAll() {
+        return testService.getAll();
     }
 }
