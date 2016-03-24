@@ -1,26 +1,22 @@
 package cn.edu.nuaa.burning.model;
 
-import lombok.Data;
-
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by zxh on 2016/3/23.
- */
+import lombok.Data;
 
-@Data
 /**
- * 定义博文类
+ * 文章实体类
  */
+@Data
 public class Article {
-    private String id;
-    private String title;
-    private String userId;
-    private Calendar createTime;
-    private Calendar modifyTime;
-    private String category;
-    private List<String> tag;
-    private List<String> comment;
-    private List<String> like;
+    private String id;                  // id
+    private String title;               // 标题
+    private String userId;              // 用户id
+    private Calendar createTime;        // 创建时间
+    private Calendar modifyTime;        // 最后一次修改时间
+    private String categoryId;          // 分类id
+    private List<String> tags;          // 标签,id列表
+    private List<Comment> comments;     // 评论,id列表
+    private List<String> likes;         // 喜欢,id列表
 }
