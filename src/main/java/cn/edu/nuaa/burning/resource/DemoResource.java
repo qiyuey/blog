@@ -8,29 +8,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
-import cn.edu.nuaa.burning.model.Test;
-import cn.edu.nuaa.burning.service.TestService;
+import cn.edu.nuaa.burning.entity.Demo;
+import cn.edu.nuaa.burning.service.DemoService;
 
 /**
  * Created by yuchuan.
  */
 @Component
 @Path("/test")
-public class TestResource {
+public class DemoResource {
 
     @Autowired
-    private TestService testService;
+    private DemoService demoService;
 
     @GET
     @Produces("application/json")
-    public Test getTest() {
-        return testService.get();
+    public Demo getTest() {
+        return demoService.get();
     }
 
     @GET
     @Path("all")
     @Produces("application/json")
-    public Slice<Test> getAll() {
-        return testService.getAll();
+    public Slice<Demo> getAll() {
+        return demoService.getAll();
     }
 }

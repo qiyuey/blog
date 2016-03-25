@@ -1,17 +1,19 @@
-package cn.edu.nuaa.burning.dao;
+package cn.edu.nuaa.burning.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import cn.edu.nuaa.burning.model.Test;
+import cn.edu.nuaa.burning.entity.Demo;
 
 /**
  * Created by yuchuan.
  */
 @Repository
-public interface TestDao extends MongoRepository<Test, String> {
-    Test findById(String id);
-    Page<Test> findAll(Pageable pageable);
+public interface DemoRepository extends MongoRepository<Demo, Long> {
+
+    Demo findById(Long id);
+
+    Page<Demo> findAll(Pageable pageable);
 }

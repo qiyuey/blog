@@ -1,4 +1,4 @@
-package cn.edu.nuaa.burning.model;
+package cn.edu.nuaa.burning.entity;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import lombok.Data;
  */
 @Data
 public class Tag {
-    private String id;      // id
+
+    private Long id;        // id
     private String value;   // Tag的值
 }
