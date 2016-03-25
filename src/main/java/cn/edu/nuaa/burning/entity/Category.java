@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class Category {
 
-    private Long id;        // 分类id
+    private String id;        // 分类id
     private String value;   // 分类名
 }

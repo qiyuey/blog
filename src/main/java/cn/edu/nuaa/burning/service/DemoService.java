@@ -1,5 +1,6 @@
 package cn.edu.nuaa.burning.service;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import cn.edu.nuaa.burning.entity.Demo;
@@ -9,7 +10,7 @@ import cn.edu.nuaa.burning.entity.Demo;
  */
 public interface DemoService {
 
-    Demo get();
+    Demo addDemo(Demo demo);
 
-    Slice<Demo> getAll();
+    Slice<Demo> getDemoSlice(Pageable pageable);
 }

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Demo {
 
-    private Long id;
+    private String id;
     private String name;
 }

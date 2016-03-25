@@ -11,9 +11,9 @@ import cn.edu.nuaa.burning.entity.Demo;
  * Created by yuchuan.
  */
 @Repository
-public interface DemoRepository extends MongoRepository<Demo, Long> {
+public interface DemoRepository extends MongoRepository<Demo, String> {
 
-    Demo findById(Long id);
+    Demo findById(String id);
 
     Page<Demo> findAll(Pageable pageable);
 }

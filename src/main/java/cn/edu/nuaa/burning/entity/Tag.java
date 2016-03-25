@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class Tag {
 
-    private Long id;        // id
+    private String id;        // id
     private String value;   // Tag的值
 }
