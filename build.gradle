@@ -35,10 +35,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-jersey')
     compile('org.springframework.boot:spring-boot-starter-jetty')
-    compile('org.projectlombok:lombok:1.16.6')
+    compile('org.projectlombok:lombok:1.16.8')
     compile('org.springframework.boot:spring-boot-starter-redis')
-    compile('org.springframework.session:spring-session')
-    compile('org.springframework.data:spring-data-solr:1.5.4.RELEASE')
+    compile('org.springframework.session:spring-session:1.1.1.RELEASE')
     compile('com.google.guava:guava:19.0')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
