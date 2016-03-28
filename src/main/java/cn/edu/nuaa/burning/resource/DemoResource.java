@@ -1,36 +1,29 @@
 package cn.edu.nuaa.burning.resource;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
+import cn.edu.nuaa.burning.entity.Demo;
+import cn.edu.nuaa.burning.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
-import cn.edu.nuaa.burning.entity.Demo;
-import cn.edu.nuaa.burning.service.DemoService;
-
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.Date;
 
 /**
  * Created by yuchuan.
  */
 @Component
-@Path("/demo")
+@Path("demo")
 public class DemoResource {
 
     @Autowired
     private DemoService demoService;
 
     @POST
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Demo add(Demo demo) {
         if (demo == null) {
             demo = new Demo();
@@ -40,15 +33,15 @@ public class DemoResource {
     }
 
     @GET
-    @Produces("application/json")
-    public Slice<Demo> getAll(@QueryParam("page") Integer page, @QueryParam("size") Integer size) {
-        if (page == null) {
-            page = 0;
-        }
-        if (size == null) {
-            size = 10;
-        }
-        Pageable pageable = new PageRequest(page, size);
-        return demoService.getDemoSlice(pageable);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Slice<Demo> getAll(@DefaultValue("0") @QueryParam("page") Integer page, @DefaultValue("10") @QueryParam("size") Integer size) {
+        return demoService.getDemoSlice(new PageRequest(page, size));
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Demo get(@PathParam("id") String id) {
+        return demoService.getDemo(id);
     }
 }

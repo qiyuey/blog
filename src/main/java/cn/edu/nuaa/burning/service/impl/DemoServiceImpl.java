@@ -25,6 +25,11 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
+    public Demo getDemo(String id) {
+        return demoRepository.findById(id);
+    }
+
+    @Override
     public Slice<Demo> getDemoSlice(Pageable pageable) {
         if (pageable == null) {
             pageable = new PageRequest(0, 10);
