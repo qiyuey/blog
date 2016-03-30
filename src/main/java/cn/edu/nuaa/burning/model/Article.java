@@ -3,6 +3,7 @@ package cn.edu.nuaa.burning.model;
 import lombok.Data;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public class Article {
     private String id;
     private String title;
     private String userId;
-    private Calendar createTime;
-    private Calendar modifyTime;
+    private Date createTime;
+    private Date modifyTime;
     private String category;
     private List<String> tag;
     private List<String> comment;
