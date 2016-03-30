@@ -4,8 +4,6 @@ import cn.edu.nuaa.burning.filter.PoweredByResponseFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
-import cn.edu.nuaa.burning.resource.DemoResource;
-
 /**
  * Created by yuchuan.
  */
@@ -13,7 +11,7 @@ import cn.edu.nuaa.burning.resource.DemoResource;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(DemoResource.class);
+        packages("cn.edu.nuaa.burning.resource");
         register(PoweredByResponseFilter.class);
     }
 }
