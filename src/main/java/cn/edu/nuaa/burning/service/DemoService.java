@@ -15,4 +15,6 @@ public interface DemoService {
     Demo getDemo(String id);
 
     Slice<Demo> getDemoSlice(Pageable pageable);
+
+    Demo updateDemo(Demo demo);
 }

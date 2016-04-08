@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -45,6 +46,18 @@ public class DemoResource {
             @Context HttpServletRequest request) {
         log.info((String) request.getSession().getAttribute("test"));
         return demoService.getDemoSlice(new PageRequest(page, size));
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Demo update(Demo demo, @PathParam("id") String id) {
+        Demo demoUp = demoService.getDemo(id);
+        if (!StringUtils.isEmpty(demo.getName())) {
+            demoUp.setName(demo.getName());
+        }
+        return demoService.updateDemo(demoUp);
     }
 
     @GET

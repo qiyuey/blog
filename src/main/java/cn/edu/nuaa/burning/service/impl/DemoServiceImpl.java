@@ -37,4 +37,8 @@ public class DemoServiceImpl implements DemoService {
         return demoRepository.findAll(pageable);
     }
 
+    @Override
+    public Demo updateDemo(Demo demo) {
+        return demoRepository.save(demo);
+    }
 }
