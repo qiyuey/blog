@@ -7,7 +7,7 @@ import cn.edu.nuaa.burning.entity.User;
  */
 public interface UserService {
 
-    boolean checkUserExist(String username);
+    User addUser(String username, String password, String email);
 
-    User login(String username, String password);
+    User findUser(String username, String password);
 }
