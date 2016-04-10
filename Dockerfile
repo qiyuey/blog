@@ -1,7 +1,6 @@
 FROM java:8
 EXPOSE 80
 ADD gradle /tmp/build/gradle
-ADD libs /tmp/build/libs
 ADD src /tmp/build/src
 ADD gradlew /tmp/build
 ADD build.gradle /tmp/build
