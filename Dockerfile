@@ -1,5 +1,5 @@
 FROM java:8
-EXPOSE 80
+EXPOSE 8080
 ADD gradle /tmp/build/gradle
 ADD src /tmp/build/src
 ADD gradlew /tmp/build
