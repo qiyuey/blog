@@ -15,6 +15,6 @@ public class BaseExceptionMapper implements ExceptionMapper<BaseException> {
     @Override
     public Response toResponse(BaseException exception) {
         ExceptionResp exceptionResp = new ExceptionResp(exception);
-        return Response.status(exception.getHttpStatusCode()).entity(exceptionResp).build();
+        return Response.status(exceptionResp.getHttpStatusCode()).entity(exceptionResp).build();
     }
 }

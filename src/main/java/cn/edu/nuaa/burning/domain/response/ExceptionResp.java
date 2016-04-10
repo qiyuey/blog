@@ -16,5 +16,6 @@ public class ExceptionResp {
     public ExceptionResp(BaseException exception) {
         id = exception.getId();
         content = exception.getContent();
+        httpStatusCode = exception.getHttpStatusCode();
     }
 }

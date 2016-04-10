@@ -1,6 +1,5 @@
 package cn.edu.nuaa.burning.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -13,7 +12,7 @@ public class BaseException extends RuntimeException {
     private String content;
     private int httpStatusCode;
 
-    public BaseException(int id, String content, int httpStatusCode) {
+    BaseException(int id, String content, int httpStatusCode) {
         this.id = id;
         this.content = content;
         this.httpStatusCode = httpStatusCode;

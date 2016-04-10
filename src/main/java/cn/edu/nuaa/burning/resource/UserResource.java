@@ -1,7 +1,9 @@
 package cn.edu.nuaa.burning.resource;
 
+import cn.edu.nuaa.burning.domain.request.RegisterReq;
 import cn.edu.nuaa.burning.domain.response.UserResp;
 import cn.edu.nuaa.burning.entity.User;
+import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -22,7 +25,7 @@ public class UserResource {
     private UserService userService;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response login(
             @QueryParam("username") String username,
             @QueryParam("password") String password,
@@ -34,13 +37,18 @@ public class UserResource {
     }
 
     @POST
-    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response register(
-            @QueryParam("username") String username,
-            @QueryParam("password") String password,
-            @QueryParam("email") String email,
+            RegisterReq registerReq,
             @Context HttpServletRequest request) {
-        User user = userService.addUser(username, password, email);
+        if (registerReq == null) {
+            throw new InvalidInputException();
+        }
+        User user = userService.addUser(
+                registerReq.getUsername(),
+                registerReq.getPassword(),
+                registerReq.getEmail());
         UserResp userResp = new UserResp(user);
         request.getSession().setAttribute("id", user.getId());
         return Response.ok(userResp).build();
