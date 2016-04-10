@@ -16,3 +16,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://nuaa:yccy@nuaa.qiyuey.com:27027/blog
+  jersey:
+    application-path: api
+
