@@ -1,60 +1,84 @@
 package cn.edu.nuaa.burning.service.impl;
 
 import cn.edu.nuaa.burning.entity.Category;
+import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
-import cn.edu.nuaa.burning.exception.RepositoryException;
 import cn.edu.nuaa.burning.exception.ResourceAlreadyExistsException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
-import cn.edu.nuaa.burning.repository.CategoryRespository;
+import cn.edu.nuaa.burning.repository.CategoryRepository;
+import cn.edu.nuaa.burning.repository.UserRepository;
 import cn.edu.nuaa.burning.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
- * Created by zxh on 2016/4/13.
+ * Category服务层接口
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryRespository categoryRespository;
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public Category addCategory(String value){
+    public Category addCategory(String value, String userId) {
         if (StringUtils.isEmpty(value)) {
             throw new InvalidInputException();
         }
-        Category category = categoryRespository.findByValue(value);
-        if (category != null) {
+        User user = checkExists(userId);
+        Category category = categoryRepository.findByValue(value);
+        if (category == null) {
+            category = new Category();
+            category.setValue(value);
+            categoryRepository.save(category);
+        }
+        if (user.getCategories().add(category.getId())) {
+            return category;
+        } else {
             throw new ResourceAlreadyExistsException();
         }
-        category = new Category();
-        category.setValue(value);
-        category = categoryRespository.save(category);
-        return category;
     }
 
     @Override
-    public Category findByCategoryByValue(String value){
-        if (StringUtils.isEmpty(value)) {
-            throw new InvalidInputException();
-        }
-        Category category = categoryRespository.findByValue(value);
-        if (category == null) {
+    public List<Category> findAllCategory(String userId) {
+        User user = checkExists(userId);
+        HashSet<String> hashSet = user.getCategories();
+        return hashSet
+                .stream()
+                .map(key -> categoryRepository.findOne(key))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCategory(String id, String userId) {
+        User user = checkExists(userId);
+        if (user.getCategories().remove(id)) {
+            userRepository.save(user);
+        } else {
             throw new ResourceNotFoundException();
         }
-        return category;
     }
 
-    @Override
-    public Boolean deleteCategory(Category category){
-        try {
-            categoryRespository.delete(category);
-        }catch (Exception e){
-            throw new RepositoryException();
+    /**
+     * 判断用户是否存在
+     * TODO 提取抽象
+     *
+     * @param id 用户id
+     * @return 用户
+     */
+    private User checkExists(String id) {
+        User user = userRepository.findById(id);
+        if (user == null) {
+            throw new ResourceNotFoundException();
         }
-        return true;
+        return user;
     }
-
 }

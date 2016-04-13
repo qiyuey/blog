@@ -24,4 +24,12 @@ public abstract class PermissionUtils {
             throw new PermissionException();
         }
     }
+
+    public static String findId(HttpServletRequest request) {
+        String sessionId = (String) request.getSession().getAttribute("id");
+        if (sessionId == null) {
+            throw new NotLoginException();
+        }
+        return sessionId;
+    }
 }

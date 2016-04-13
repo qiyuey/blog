@@ -1,9 +1,7 @@
 package cn.edu.nuaa.burning.resource;
 
-import cn.edu.nuaa.burning.domain.response.CategoryResp;
-import cn.edu.nuaa.burning.entity.Category;
-import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.service.CategoryService;
+import cn.edu.nuaa.burning.util.PermissionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by zxh on 2016/4/13.
+ * Category访问类
  */
 @Component
 @Path("category")
@@ -23,22 +21,32 @@ public class CategoryResource {
     @Autowired
     private CategoryService categoryService;
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAll(@Context HttpServletRequest request) {
+        return Response
+                .ok(categoryService.findAllCategory(PermissionUtils.findId(request)))
+                .build();
+    }
+
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response add(
-            @QueryParam("value") String value) {
-        Category category = categoryService.addCategory(value);
-        CategoryResp categoryResp = new CategoryResp(category);
-        return Response.ok(categoryResp).build();
+            @QueryParam("value") String value,
+            @Context HttpServletRequest request
+    ) {
+        String id = PermissionUtils.findId(request);
+        return Response.ok(categoryService.addCategory(value, id)).build();
     }
 
     @DELETE
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(
-            @QueryParam("value") String value) {
-        Category category = categoryService.findByCategoryByValue(value);
-        categoryService.deleteCategory(category);
+            @PathParam("id") String id,
+            @Context HttpServletRequest request
+    ) {
+        categoryService.deleteCategory(id, PermissionUtils.findId(request));
         return Response.noContent().build();
     }
 

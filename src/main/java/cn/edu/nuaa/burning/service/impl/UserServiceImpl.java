@@ -3,6 +3,7 @@ package cn.edu.nuaa.burning.service.impl;
 import cn.edu.nuaa.burning.domain.request.UserReq;
 import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
+import cn.edu.nuaa.burning.exception.NotLoginException;
 import cn.edu.nuaa.burning.exception.ResourceAlreadyExistsException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
 import cn.edu.nuaa.burning.repository.UserRepository;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
     private User checkExists(String id) {
         User user = userRepository.findById(id);
         if (user == null) {
-            throw new ResourceNotFoundException();
+            throw new NotLoginException();
         }
         return user;
     }

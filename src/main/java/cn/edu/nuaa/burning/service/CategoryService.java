@@ -2,15 +2,16 @@ package cn.edu.nuaa.burning.service;
 
 import cn.edu.nuaa.burning.entity.Category;
 
+import java.util.List;
+
 /**
- * Created by zxh on 2016/4/13.
+ * Category服务层
  */
 public interface CategoryService {
 
-    public Category addCategory(String value);
+    Category addCategory(String value, String userId);
 
-    public Category findByCategoryByValue(String value);
+    List<Category> findAllCategory(String userId);
 
-    public Boolean deleteCategory(Category category);
-
+    void deleteCategory(String id, String userId);
 }
