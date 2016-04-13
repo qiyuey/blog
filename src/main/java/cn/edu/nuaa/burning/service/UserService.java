@@ -1,5 +1,6 @@
 package cn.edu.nuaa.burning.service;
 
+import cn.edu.nuaa.burning.domain.request.UserReq;
 import cn.edu.nuaa.burning.entity.User;
 
 /**
@@ -7,7 +8,9 @@ import cn.edu.nuaa.burning.entity.User;
  */
 public interface UserService {
 
-    User addUser(String username, String password, String email);
+    User addUser(UserReq userReq);
 
     User findUser(String username, String password);
+
+    User updateUser(String id, UserReq userReq);
 }

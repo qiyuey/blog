@@ -1,11 +1,14 @@
 package cn.edu.nuaa.burning.service.impl;
 
+import cn.edu.nuaa.burning.domain.request.UserReq;
 import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.exception.ResourceAlreadyExistsException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
 import cn.edu.nuaa.burning.repository.UserRepository;
 import cn.edu.nuaa.burning.service.UserService;
+import cn.edu.nuaa.burning.util.EmptyUtils;
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,28 +23,61 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User addUser(String username, String password, String email) {
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password) || StringUtils.isEmpty(email)) {
+    public User addUser(UserReq userReq) {
+        if (StringUtils.isEmpty(userReq.getPassword()) ||
+                StringUtils.isEmpty(userReq.getNickname()) ||
+                StringUtils.isEmpty(userReq.getEmail())
+                ) {
             throw new InvalidInputException();
         }
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(userReq.getEmail());
         if (user != null) {
             throw new ResourceAlreadyExistsException();
         }
         user = new User();
-        user.setUsername(username);
-        user.setPassword(password); // FIXME 加密
-        user.setEmail(email);
-        user = userRepository.save(user);
+        user.setPassword(userReq.getPassword()); // FIXME 加密
+        user.setEmail(userReq.getEmail());
+        user.setNickname(userReq.getEmail());
+        user.setAge(EmptyUtils.convert(userReq.getAge()));
+        user.setPhoto(EmptyUtils.convert(userReq.getPhoto()));
+        user.setSignature(EmptyUtils.convert(userReq.getPhoto()));
+        user.setCategories(Sets.newHashSet());
+        user.setCollections(Sets.newHashSet());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findUser(String email, String password) {
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
+            throw new InvalidInputException();
+        }
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user == null) {
+            throw new ResourceNotFoundException();
+        }
         return user;
     }
 
     @Override
-    public User findUser(String username, String password) {
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            throw new InvalidInputException();
+    public User updateUser(String id, UserReq userReq) {
+        User user = checkExists(id);
+        if (userReq.getAge() != null) {
+            user.setAge(userReq.getAge());
         }
-        User user = userRepository.findByUsernameAndPassword(username, password);
+        if (userReq.getNickname() != null) {
+            user.setNickname(userReq.getNickname());
+        }
+        if (userReq.getPhoto() != null) {
+            user.setPhoto(userReq.getPhoto());
+        }
+        if (userReq.getSignature() != null) {
+            user.setSignature(userReq.getSignature());
+        }
+        return userRepository.save(user);
+    }
+
+    private User checkExists(String id) {
+        User user = userRepository.findById(id);
         if (user == null) {
             throw new ResourceNotFoundException();
         }

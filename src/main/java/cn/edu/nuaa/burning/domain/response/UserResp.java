@@ -10,17 +10,17 @@ import lombok.Data;
 public class UserResp {
 
     private String id;
-    private String username;
     private String email;
     private String nickname;
+    private Integer age;
     private String photo;
     private String signature;
 
     public UserResp(User user) {
         id = user.getId();
-        username = user.getUsername();
         email = user.getEmail();
         nickname = user.getNickname();
+        age = user.getAge();
         photo = user.getPhoto();
         signature = user.getSignature();
     }

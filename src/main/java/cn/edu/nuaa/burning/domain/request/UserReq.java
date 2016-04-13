@@ -6,9 +6,12 @@ import lombok.Data;
  * qiyuey on 2016/4/10.
  */
 @Data
-public class RegisterReq {
+public class UserReq {
 
-    private String username;
     private String password;
     private String email;
+    private Integer age;
+    private String nickname;
+    private String photo;
+    private String signature;
 }
