@@ -47,6 +47,7 @@ public class CategoryResource {
             @Context HttpServletRequest request
     ) {
         categoryService.deleteCategory(id, PermissionUtils.findId(request));
+        // TODO 文章移动到默认分类或者禁止删除有文章的分类
         return Response.noContent().build();
     }
 
