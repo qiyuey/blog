@@ -3,7 +3,6 @@ buildscript {
         springBootVersion = '1.3.3.RELEASE'
     }
     repositories {
-		maven { url 'http://maven.oschina.net/content/groups/public/' }
         mavenCentral()
     }
     dependencies {
