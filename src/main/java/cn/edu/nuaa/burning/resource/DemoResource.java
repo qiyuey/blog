@@ -1,6 +1,7 @@
 package cn.edu.nuaa.burning.resource;
 
 import cn.edu.nuaa.burning.entity.Demo;
+import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
 import cn.edu.nuaa.burning.service.DemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,11 @@ public class DemoResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Demo get(@PathParam("id") String id) {
-        return demoService.getDemo(id);
+        Demo demo = demoService.getDemo(id);
+        if (demo == null) {
+            throw new ResourceNotFoundException();
+        } else {
+            return demo;
+        }
     }
 }

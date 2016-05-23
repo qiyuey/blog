@@ -10,4 +10,8 @@ import org.springframework.data.domain.Slice;
 public interface ArticleService {
 
     Slice<Article> findArticleSlice(String userId, Pageable pageable);
+
+    Article addArticle(Article article);
+
+    Article updateArticle(Article article);
 }

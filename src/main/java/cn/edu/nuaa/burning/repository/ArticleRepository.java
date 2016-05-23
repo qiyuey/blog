@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface ArticleRepository extends MongoRepository<Article, String> {
 
     Slice<Article> findByUserId(String userId, Pageable pageable);
+
+    Article findByIdAndUserId(String id, String userId);
 }
