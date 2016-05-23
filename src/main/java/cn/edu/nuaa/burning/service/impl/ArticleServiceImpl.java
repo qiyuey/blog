@@ -2,12 +2,13 @@ package cn.edu.nuaa.burning.service.impl;
 
 import cn.edu.nuaa.burning.entity.Article;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
+import cn.edu.nuaa.burning.exception.PermissionException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
 import cn.edu.nuaa.burning.repository.ArticleRepository;
 import cn.edu.nuaa.burning.repository.CategoryRepository;
 import cn.edu.nuaa.burning.service.ArticleService;
+import cn.edu.nuaa.burning.util.EmptyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -82,5 +83,32 @@ public class ArticleServiceImpl implements ArticleService {
         entity.setTitle(article.getTitle());
         entity.setModifyTime(new Date());
         return articleRepository.save(entity);
+    }
+
+    @Override
+    public Article findArticle(String id) {
+        if (EmptyUtils.check(id)) {
+            throw new InvalidInputException();
+        }
+        Article article = articleRepository.findOne(id);
+        if (article == null) {
+            throw new ResourceNotFoundException();
+        }
+        return article;
+    }
+
+    @Override
+    public void deleteArticle(String userId, String id) {
+        if (EmptyUtils.check(id)) {
+            throw new InvalidInputException();
+        }
+        Article article = articleRepository.findOne(id);
+        if (article == null) {
+            throw new ResourceNotFoundException();
+        }
+        if (!Objects.equals(id, article.getUserId())) {
+            throw new PermissionException();
+        }
+        articleRepository.delete(id);
     }
 }

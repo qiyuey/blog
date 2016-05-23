@@ -1,5 +1,7 @@
 package cn.edu.nuaa.burning.util;
 
+import java.util.Objects;
+
 /**
  * 初始值为空处理工具类
  * @author qiyuey
@@ -30,5 +32,14 @@ public abstract class EmptyUtils {
         } else {
             return string;
         }
+    }
+
+    /**
+     * 判断字符串是否为空
+     * @param string 传入值
+     * @return 判断结果
+     */
+    public static boolean check(String string) {
+        return string == null || Objects.equals(string, "");
     }
 }

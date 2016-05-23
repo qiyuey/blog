@@ -38,6 +38,13 @@ public class ArticleResource {
         return articleService.findArticleSlice(id, new PageRequest(page, size));
     }
 
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Article get(@PathParam("id") String id) {
+        return articleService.findArticle(id);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -60,5 +67,13 @@ public class ArticleResource {
         }
         article.setUserId(id);
         return articleService.updateArticle(article);
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void delete(@PathParam("id") String id, @Context HttpServletRequest request) {
+        String userId = PermissionUtils.findId(request);
+        articleService.deleteArticle(userId, id);
     }
 }
