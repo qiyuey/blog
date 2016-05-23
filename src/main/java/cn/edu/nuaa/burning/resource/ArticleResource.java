@@ -21,8 +21,12 @@ import javax.ws.rs.core.MediaType;
 @Path("article")
 public class ArticleResource {
 
+    private final ArticleService articleService;
+
     @Autowired
-    private ArticleService articleService;
+    public ArticleResource(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

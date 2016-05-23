@@ -16,8 +16,12 @@ import cn.edu.nuaa.burning.service.DemoService;
 @Service
 public class DemoServiceImpl implements DemoService {
 
+    private final DemoRepository demoRepository;
+
     @Autowired
-    private DemoRepository demoRepository;
+    public DemoServiceImpl(DemoRepository demoRepository) {
+        this.demoRepository = demoRepository;
+    }
 
     @Override
     public Demo addDemo(Demo demo) {

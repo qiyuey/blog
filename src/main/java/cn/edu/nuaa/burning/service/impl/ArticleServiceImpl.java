@@ -23,11 +23,15 @@ import java.util.Objects;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    public ArticleServiceImpl(ArticleRepository articleRepository, CategoryRepository categoryRepository) {
+        this.articleRepository = articleRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
 
     @Override

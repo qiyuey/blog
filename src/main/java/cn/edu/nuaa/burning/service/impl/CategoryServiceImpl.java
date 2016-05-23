@@ -22,11 +22,15 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public CategoryServiceImpl(UserRepository userRepository, CategoryRepository categoryRepository) {
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public Category addCategory(String value, String userId) {

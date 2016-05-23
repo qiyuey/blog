@@ -18,8 +18,12 @@ import javax.ws.rs.core.Response;
 @Path("category")
 public class CategoryResource {
 
+    private final CategoryService categoryService;
+
     @Autowired
-    private CategoryService categoryService;
+    public CategoryResource(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

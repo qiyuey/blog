@@ -22,8 +22,12 @@ import javax.ws.rs.core.Response;
 @Path("user")
 public class UserResource {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserResource(UserService userService) {
+        this.userService = userService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

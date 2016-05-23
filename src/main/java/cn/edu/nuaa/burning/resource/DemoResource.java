@@ -24,8 +24,12 @@ import java.util.Date;
 @Path("demo")
 public class DemoResource {
 
+    private final DemoService demoService;
+
     @Autowired
-    private DemoService demoService;
+    public DemoResource(DemoService demoService) {
+        this.demoService = demoService;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
