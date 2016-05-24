@@ -1,6 +1,7 @@
 package cn.edu.nuaa.burning.service.impl;
 
 import cn.edu.nuaa.burning.entity.Article;
+import cn.edu.nuaa.burning.entity.Comment;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.exception.PermissionException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -103,16 +105,51 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(String userId, String id) {
-        if (EmptyUtils.check(id)) { //检测字符串是否是空
+        Article article = checkExists(id);
+        if (!Objects.equals(id, article.getUserId())) {
+            throw new PermissionException();
+        }
+        articleRepository.delete(id);
+    }
+
+    @Override
+    public List<String> findLikeById(String id) {
+        Article article = checkExists(id);
+        return article.getLikes();
+    }
+
+    @Override
+    public void deleteLike(String userId, String id) {
+        Article article = checkExists(id);
+        int index = article.getLikes().lastIndexOf(userId);
+        if (index >= 0) {
+            article.getLikes().remove(userId);
+            articleRepository.save(article);
+        }
+    }
+
+    @Override
+    public List<Comment> findCommentByArticle(String id) {
+        Article article = checkExists(id);
+        return article.getComments();
+    }
+
+    @Override
+    public Comment addComment(String id, Comment comment) {
+        Article article = checkExists(id);
+        comment.setCreateTime(new Date());
+        article.getComments().add(comment);
+        return null;
+    }
+
+    private Article checkExists(String id) {
+        if (EmptyUtils.check(id)) {
             throw new InvalidInputException();
         }
         Article article = articleRepository.findOne(id);
         if (article == null) {
             throw new ResourceNotFoundException();
         }
-        if (!Objects.equals(id, article.getUserId())) {
-            throw new PermissionException();
-        }
-        articleRepository.delete(id);
+        return article;
     }
 }

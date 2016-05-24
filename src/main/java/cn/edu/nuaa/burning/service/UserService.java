@@ -13,4 +13,6 @@ public interface UserService {
     User findUser(String username, String password);
 
     User updateUser(String id, UserReq userReq);
+
+    User findUserById(String id);
 }

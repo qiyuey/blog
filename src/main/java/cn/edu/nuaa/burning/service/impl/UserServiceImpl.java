@@ -81,7 +81,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User findUserById(String id) {
+        return userRepository.findOne(id);
+    }
+
     private User checkExists(String id) {
+        if (EmptyUtils.check(id)) {
+            throw new InvalidInputException();
+        }
         User user = userRepository.findById(id);
         if (user == null) {
             throw new NotLoginException();

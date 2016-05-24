@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @Slf4j
 @Component
-@Path("demo")
+@Path("demos")
 public class DemoResource {
 
     private final DemoService demoService;

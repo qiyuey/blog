@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
  * Category访问类
  */
 @Component
-@Path("category")
+@Path("categories")
 public class CategoryResource {
 
     private final CategoryService categoryService;
