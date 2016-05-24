@@ -8,6 +8,6 @@ public class InvalidInputException extends BaseException {
     private static final long serialVersionUID = -8506536163702307630L;
 
     public InvalidInputException() {
-        super(100, "请求输入之一无效。", 400);
+        super(100, "请求输入之一无效。", 400);//super:调用父类的构造函数
     }
 }

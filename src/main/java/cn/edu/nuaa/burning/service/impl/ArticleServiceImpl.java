@@ -66,6 +66,10 @@ public class ArticleServiceImpl implements ArticleService {
     public Article updateArticle(Article article) {
         if (article.getTitle() == null || article.getContent() == null || article.getSummary() == null) {
             throw new InvalidInputException();
+            //throws关键字通常被应用在声明方法时，用来指定可能抛出的异常
+            /*程序在执行到throw语句时立即停止，它后面的语句都不执行。通过throw抛出异常后，如果想在上一级代码中来捕获并处理异常，
+            则需要在抛出异常的方法中使用throws关键字在方法声明中指明要跑出的异常；如果要捕捉throw抛出的异常，则必须使用try—catch语句
+             */
         }
         Article entity = articleRepository.findByIdAndUserId(article.getId(), article.getUserId());
         if (entity == null) {
@@ -99,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(String userId, String id) {
-        if (EmptyUtils.check(id)) {
+        if (EmptyUtils.check(id)) { //检测字符串是否是空
             throw new InvalidInputException();
         }
         Article article = articleRepository.findOne(id);
