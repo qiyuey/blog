@@ -4,6 +4,8 @@ import cn.edu.nuaa.burning.entity.Article;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
+import java.util.List;
+
 /**
  * @author qiyuey
  */
@@ -18,4 +20,8 @@ public interface ArticleService {
     Article findArticle(String id);
 
     void deleteArticle(String userId, String id);
+
+    List<String> findLikeById(String id);
+
+    void deleteLike(String userId, String id);
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -99,6 +100,30 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(String userId, String id) {
+        Article article = checkExists(id);
+        if (!Objects.equals(id, article.getUserId())) {
+            throw new PermissionException();
+        }
+        articleRepository.delete(id);
+    }
+
+    @Override
+    public List<String> findLikeById(String id) {
+        Article article = checkExists(id);
+        return article.getLikes();
+    }
+
+    @Override
+    public void deleteLike(String userId, String id) {
+        Article article = checkExists(id);
+        int index = article.getLikes().lastIndexOf(userId);
+        if (index >= 0) {
+            article.getLikes().remove(userId);
+            articleRepository.save(article);
+        }
+    }
+
+    private Article checkExists(String id) {
         if (EmptyUtils.check(id)) {
             throw new InvalidInputException();
         }
@@ -106,9 +131,6 @@ public class ArticleServiceImpl implements ArticleService {
         if (article == null) {
             throw new ResourceNotFoundException();
         }
-        if (!Objects.equals(id, article.getUserId())) {
-            throw new PermissionException();
-        }
-        articleRepository.delete(id);
+        return article;
     }
 }

@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
  * qiyuey on 2016/4/8.
  */
 @Component
-@Path("user")
+@Path("users")
 public class UserResource {
 
     private final UserService userService;

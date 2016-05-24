@@ -1,9 +1,13 @@
 package cn.edu.nuaa.burning.resource;
 
+import cn.edu.nuaa.burning.domain.response.UserResp;
 import cn.edu.nuaa.burning.entity.Article;
+import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.service.ArticleService;
+import cn.edu.nuaa.burning.service.UserService;
 import cn.edu.nuaa.burning.util.PermissionUtils;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * @author qiyuey
@@ -23,9 +28,12 @@ public class ArticleResource {
 
     private final ArticleService articleService;
 
+    private final UserService userService;
+
     @Autowired
-    public ArticleResource(ArticleService articleService) {
+    public ArticleResource(ArticleService articleService, UserService userService) {
         this.articleService = articleService;
+        this.userService = userService;
     }
 
     @GET
@@ -75,5 +83,27 @@ public class ArticleResource {
     public void delete(@PathParam("id") String id, @Context HttpServletRequest request) {
         String userId = PermissionUtils.findId(request);
         articleService.deleteArticle(userId, id);
+    }
+
+    @GET
+    @Path("{articleId}/likes/")
+    public List<UserResp> getLikes(@PathParam("articleId") String id) {
+        List<String> userIds = articleService.findLikeById(id);
+        List<UserResp> users = Lists.newArrayList();
+        UserResp userResp;
+        User user;
+        for (int i = 0; i < userIds.size(); i++) {
+            user = userService.findUserById(id);
+            userResp = new UserResp(user);
+            users.add(userResp);
+        }
+        return users;
+    }
+
+    @DELETE
+    @Path("{articleId}/likes/")
+    public void deleteLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
+        String userId = PermissionUtils.findId(request);
+        articleService.deleteLike(userId, id);
     }
 }
