@@ -1,6 +1,7 @@
 package cn.edu.nuaa.burning.service.impl;
 
 import cn.edu.nuaa.burning.entity.Article;
+import cn.edu.nuaa.burning.entity.Comment;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.exception.PermissionException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
@@ -121,6 +122,20 @@ public class ArticleServiceImpl implements ArticleService {
             article.getLikes().remove(userId);
             articleRepository.save(article);
         }
+    }
+
+    @Override
+    public List<Comment> findCommentByArticle(String id) {
+        Article article = checkExists(id);
+        return article.getComments();
+    }
+
+    @Override
+    public Comment addComment(String id, Comment comment) {
+        Article article = checkExists(id);
+        comment.setCreateTime(new Date());
+        article.getComments().add(comment);
+        return null;
     }
 
     private Article checkExists(String id) {

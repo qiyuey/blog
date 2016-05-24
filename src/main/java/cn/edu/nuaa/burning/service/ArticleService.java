@@ -1,6 +1,7 @@
 package cn.edu.nuaa.burning.service;
 
 import cn.edu.nuaa.burning.entity.Article;
+import cn.edu.nuaa.burning.entity.Comment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -24,4 +25,8 @@ public interface ArticleService {
     List<String> findLikeById(String id);
 
     void deleteLike(String userId, String id);
+
+    List<Comment> findCommentByArticle(String id);
+
+    Comment addComment(String id, Comment comment);
 }

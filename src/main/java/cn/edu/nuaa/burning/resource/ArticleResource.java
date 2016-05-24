@@ -2,6 +2,7 @@ package cn.edu.nuaa.burning.resource;
 
 import cn.edu.nuaa.burning.domain.response.UserResp;
 import cn.edu.nuaa.burning.entity.Article;
+import cn.edu.nuaa.burning.entity.Comment;
 import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.service.ArticleService;
@@ -105,5 +106,19 @@ public class ArticleResource {
     public void deleteLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
         String userId = PermissionUtils.findId(request);
         articleService.deleteLike(userId, id);
+    }
+
+    @GET
+    @Path("{articleId}/comments")
+    public List<Comment> getComments(@PathParam("articleId") String id) {
+        return articleService.findCommentByArticle(id);
+    }
+
+    @POST
+    @Path("{articleId}/comments")
+    public Comment addComment(Comment comment, @PathParam("articleId") String id, @Context HttpServletRequest request) {
+        String userId = PermissionUtils.findId(request);
+        comment.setFromUserId(userId);
+        return articleService.addComment(id, comment);
     }
 }
