@@ -38,6 +38,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    public Slice<Article> findAllArticleSlice(Pageable pageable) {
+        if (pageable == null) {
+            pageable = new PageRequest(0, 10);
+        }
+        return articleRepository.findAll(pageable);
+    }
+
+    @Override
     public Slice<Article> findArticleSlice(String userId, Pageable pageable) {
         if (pageable == null) {
             pageable = new PageRequest(0, 10);
@@ -113,6 +121,16 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = checkExists(id);
         return article.getLikes();
     }
+
+    @Override
+    public List<String> addLike(String userId, String id) {
+        Article article = checkExists(id);
+        article.getLikes().add(userId);
+        articleRepository.save(article);
+        return article.getLikes();
+    }
+
+    // 点赞
 
     @Override
     public void deleteLike(String userId, String id) {

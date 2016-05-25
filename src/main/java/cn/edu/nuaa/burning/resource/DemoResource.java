@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class DemoResource {
 
     @Autowired
     public DemoResource(DemoService demoService) {
+        Assert.notNull(demoService);
         this.demoService = demoService;
     }
 

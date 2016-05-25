@@ -39,7 +39,17 @@ public class ArticleResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Slice<Article> getAll(
+    public Slice<Article> getAllArticle(
+            @DefaultValue("0") @QueryParam("page") Integer page,
+            @DefaultValue("10") @QueryParam("size") Integer size,
+            @Context HttpServletRequest request) {
+        return articleService.findAllArticleSlice(new PageRequest(page, size));
+    }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Slice<Article> getArticle(
             @DefaultValue("0") @QueryParam("page") Integer page,
             @DefaultValue("10") @QueryParam("size") Integer size,
             @Context HttpServletRequest request) {
@@ -89,16 +99,14 @@ public class ArticleResource {
     @GET
     @Path("{articleId}/likes/")
     public List<UserResp> getLikes(@PathParam("articleId") String id) {
-        List<String> userIds = articleService.findLikeById(id);
-        List<UserResp> users = Lists.newArrayList();
-        UserResp userResp;
-        User user;
-        for (int i = 0; i < userIds.size(); i++) {
-            user = userService.findUserById(id);
-            userResp = new UserResp(user);
-            users.add(userResp);
-        }
-        return users;
+        return userToResp(articleService.findLikeById(id), id);
+    }
+
+    @POST
+    @Path("{articleId}/likes")
+    public List<UserResp> addLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
+        String userId = PermissionUtils.findId(request);
+        return userToResp(articleService.addLike(userId, id), id);
     }
 
     @DELETE
@@ -120,5 +128,17 @@ public class ArticleResource {
         String userId = PermissionUtils.findId(request);
         comment.setFromUserId(userId);
         return articleService.addComment(id, comment);
+    }
+
+    private List<UserResp> userToResp(List<String> userIds, String id) {
+        List<UserResp> users = Lists.newArrayList();
+        UserResp userResp;
+        User user;
+        for (int i = 0; i < userIds.size(); i++) {
+            user = userService.findUserById(id);
+            userResp = new UserResp(user);
+            users.add(userResp);
+        }
+        return users;
     }
 }

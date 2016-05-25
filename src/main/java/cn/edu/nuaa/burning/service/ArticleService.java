@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface ArticleService {
 
+    Slice<Article> findAllArticleSlice(Pageable pageable);
+
     Slice<Article> findArticleSlice(String userId, Pageable pageable);
 
     Article addArticle(Article article);
@@ -23,6 +25,8 @@ public interface ArticleService {
     void deleteArticle(String userId, String id);
 
     List<String> findLikeById(String id);
+
+    List<String> addLike(String userId, String id);
 
     void deleteLike(String userId, String id);
 
