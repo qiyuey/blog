@@ -13,7 +13,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         packages("cn.edu.nuaa.burning.resource");
-        register(BaseExceptionMapper.class);
+        register(BaseExceptionMapper.class);//处理异常
         register(PoweredByResponseFilter.class);
     }
 }
