@@ -38,6 +38,7 @@ public class ArticleResource {
     }
 
     @GET
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Slice<Article> getAllArticle(
             @DefaultValue("0") @QueryParam("page") Integer page,
