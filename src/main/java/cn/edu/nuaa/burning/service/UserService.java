@@ -15,4 +15,6 @@ public interface UserService {
     User updateUser(String id, UserReq userReq);
 
     User findUserById(String id);
+
+    Boolean changePassword(String id, String oldPW, String newPW);
 }

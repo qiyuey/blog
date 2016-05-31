@@ -70,6 +70,19 @@ public class UserResource {
         return userRespBuild(userService.updateUser(id, userReq));
     }
 
+    @POST
+    @Path("{id}/password")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response changePassword(
+            @PathParam("id") String id,
+            @FormParam("old") String oldPW,
+            @FormParam("new") String newPW,
+            @Context HttpServletRequest request
+            ) {
+        PermissionUtils.check(request, id);
+        return Response.ok(userService.changePassword(id, oldPW, newPW)).build();
+    }
+
     private Response userRespBuild(User user) {
         UserResp userResp = new UserResp(user);
         return Response.ok(userResp).build();

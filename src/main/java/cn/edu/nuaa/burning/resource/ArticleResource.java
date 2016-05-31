@@ -24,7 +24,7 @@ import java.util.List;
  * @author qiyuey
  */
 @Component
-@Path("article")
+@Path("articles")
 public class ArticleResource {
 
     private final ArticleService articleService;

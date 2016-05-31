@@ -86,6 +86,18 @@ public class UserServiceImpl implements UserService {
         return userRepository.findOne(id);
     }
 
+    @Override
+    public Boolean changePassword(String id, String oldPW, String newPW) {
+        User user = checkExists(id);
+        if (user.getPassword().equals(oldPW)) {
+            user.setPassword(newPW);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private User checkExists(String id) {
         if (EmptyUtils.check(id)) {
             throw new InvalidInputException();
