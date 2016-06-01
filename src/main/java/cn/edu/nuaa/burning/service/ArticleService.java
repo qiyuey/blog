@@ -14,7 +14,11 @@ public interface ArticleService {
 
     Slice<Article> findAllArticleSlice(Pageable pageable);
 
+    Slice<Article> findAllArticleSliceByCategory(String categoryId, Pageable pageable);
+
     Slice<Article> findArticleSlice(String userId, Pageable pageable);
+
+    Slice<Article> findArticleSliceByCategory(String userId, String categoryId, Pageable pageable);
 
     Article addArticle(Article article);
 

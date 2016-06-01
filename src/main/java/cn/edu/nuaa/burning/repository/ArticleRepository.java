@@ -15,4 +15,8 @@ public interface ArticleRepository extends MongoRepository<Article, String> {
     Slice<Article> findByUserId(String userId, Pageable pageable);
 
     Article findByIdAndUserId(String id, String userId);
+
+    Slice<Article> findByUserIdAndCategoryId(String userId, String categoryId, Pageable pageable);
+
+    Slice<Article> findByCategoryId(String categoryId, Pageable pageable);
 }

@@ -9,8 +9,8 @@ import cn.edu.nuaa.burning.repository.ArticleRepository;
 import cn.edu.nuaa.burning.repository.CategoryRepository;
 import cn.edu.nuaa.burning.service.ArticleService;
 import cn.edu.nuaa.burning.util.EmptyUtils;
+import cn.edu.nuaa.burning.util.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -39,18 +39,26 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Slice<Article> findAllArticleSlice(Pageable pageable) {
-        if (pageable == null) {
-            pageable = new PageRequest(0, 10);
-        }
+        pageable = PageUtils.doCheck(pageable);
         return articleRepository.findAll(pageable);
     }
 
     @Override
+    public Slice<Article> findAllArticleSliceByCategory(String categoryId, Pageable pageable) {
+        pageable = PageUtils.doCheck(pageable);
+        return articleRepository.findByCategoryId(categoryId, pageable);
+    }
+
+    @Override
     public Slice<Article> findArticleSlice(String userId, Pageable pageable) {
-        if (pageable == null) {
-            pageable = new PageRequest(0, 10);
-        }
+        pageable = PageUtils.doCheck(pageable);
         return articleRepository.findByUserId(userId, pageable);
+    }
+
+    @Override
+    public Slice<Article> findArticleSliceByCategory(String userId, String categoryId, Pageable pageable) {
+        pageable = PageUtils.doCheck(pageable);
+        return articleRepository.findByUserIdAndCategoryId(userId, categoryId, pageable);
     }
 
     @Override

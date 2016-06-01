@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author qiyuey
@@ -41,21 +42,31 @@ public class ArticleResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Slice<Article> getAllArticle(
+            @QueryParam("categoryId") String categoryId,
             @DefaultValue("0") @QueryParam("page") Integer page,
             @DefaultValue("10") @QueryParam("size") Integer size,
             @Context HttpServletRequest request) {
-        return articleService.findAllArticleSlice(new PageRequest(page, size));
+        if (categoryId == null || Objects.equals(categoryId, "")) {
+            return articleService.findAllArticleSlice(new PageRequest(page, size));
+        } else {
+            return articleService.findAllArticleSliceByCategory(categoryId, new PageRequest(page, size));
+        }
     }
 
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Slice<Article> getArticle(
+            @QueryParam("categoryId") String categoryId,
             @DefaultValue("0") @QueryParam("page") Integer page,
             @DefaultValue("10") @QueryParam("size") Integer size,
             @Context HttpServletRequest request) {
         String id = PermissionUtils.findId(request);
-        return articleService.findArticleSlice(id, new PageRequest(page, size));
+        if (categoryId == null || Objects.equals(categoryId, "")) {
+            return articleService.findArticleSlice(id, new PageRequest(page, size));
+        } else {
+            return articleService.findArticleSliceByCategory(id, categoryId, new PageRequest(page, size));
+        }
     }
 
     @GET
