@@ -114,7 +114,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticle(String userId, String id) {
         Article article = checkExists(id);
-        if (!Objects.equals(id, article.getUserId())) {
+        if (!Objects.equals(userId, article.getUserId())) {
             throw new PermissionException();
         }
         articleRepository.delete(id);
