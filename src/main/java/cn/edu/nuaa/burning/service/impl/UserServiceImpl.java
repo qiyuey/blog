@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService {
         user = new User();
         user.setPassword(userReq.getPassword()); // FIXME 加密
         user.setEmail(userReq.getEmail());
-        user.setNickname(userReq.getEmail());
+        user.setNickname(userReq.getNickname());
         user.setAge(EmptyUtils.convert(userReq.getAge()));
         user.setPhoto(EmptyUtils.convert(userReq.getPhoto()));
-        user.setSignature(EmptyUtils.convert(userReq.getPhoto()));
+        user.setSignature(EmptyUtils.convert(userReq.getSignature()));
         user.setCategories(Sets.newHashSet());
         user.setCollections(Sets.newHashSet());
         return userRepository.save(user);
