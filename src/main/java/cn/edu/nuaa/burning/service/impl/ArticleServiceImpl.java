@@ -157,7 +157,8 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = checkExists(id);
         comment.setCreateTime(new Date());
         article.getComments().add(comment);
-        return null;
+        articleRepository.save(article);
+        return comment;
     }
 
     private Article checkExists(String id) {

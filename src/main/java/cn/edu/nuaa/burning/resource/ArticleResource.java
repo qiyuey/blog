@@ -69,11 +69,11 @@ public class ArticleResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Article create(Article article, @Context HttpServletRequest request) {
-        String id = PermissionUtils.findId(request);
+        String id = PermissionUtils.findId(request);//执行权限判断
         if (article == null) {
             throw new InvalidInputException();
         }
-        article.setUserId(id);
+        article.setUserId(id);//文章需要通过id记录创建者，文章发给服务器的JSON里的id，
         return articleService.addArticle(article);
     }
 
