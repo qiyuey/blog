@@ -13,5 +13,6 @@ public class Comment {
     private String content;       // 评论内容
     private String fromUserId;    // 评论者
     private String toUserId;      // 被回复者
+    private String nickName;
     private Date createTime;    // 创建时间
 }

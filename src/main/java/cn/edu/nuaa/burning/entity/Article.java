@@ -14,6 +14,7 @@ public class Article {
     private String id;                  // id
     private String title;               // 标题
     private String userId;              // 用户id
+    private String nickName;
     private Date createTime;            // 创建时间
     private Date modifyTime;            // 最后一次修改时间
     private String categoryId;          // 分类id

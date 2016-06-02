@@ -2,15 +2,18 @@ package cn.edu.nuaa.burning.service.impl;
 
 import cn.edu.nuaa.burning.entity.Article;
 import cn.edu.nuaa.burning.entity.Comment;
+import cn.edu.nuaa.burning.entity.User;
 import cn.edu.nuaa.burning.exception.InvalidInputException;
 import cn.edu.nuaa.burning.exception.PermissionException;
 import cn.edu.nuaa.burning.exception.ResourceNotFoundException;
 import cn.edu.nuaa.burning.repository.ArticleRepository;
 import cn.edu.nuaa.burning.repository.CategoryRepository;
+import cn.edu.nuaa.burning.repository.UserRepository;
 import cn.edu.nuaa.burning.service.ArticleService;
 import cn.edu.nuaa.burning.util.EmptyUtils;
 import cn.edu.nuaa.burning.util.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -26,9 +29,15 @@ import java.util.Objects;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+
+
     private final ArticleRepository articleRepository;
 
     private final CategoryRepository categoryRepository;
+
+    @Qualifier("userRepository")
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository, CategoryRepository categoryRepository) {
@@ -73,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getTags() == null) {
             article.setTags(new ArrayList<>());
         }
+        article.setNickName(userRepository.findById(article.getUserId()).getNickname());
         article.setCreateTime(new Date());
         article.setModifyTime(new Date());
         article.setComments(new ArrayList<>());
@@ -163,6 +173,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Comment addComment(String id, Comment comment) {
         Article article = checkExists(id);
+        comment.setNickName(userRepository.findOne(article.getUserId()).getNickname());
         comment.setCreateTime(new Date());
         article.getComments().add(comment);
         articleRepository.save(article);
