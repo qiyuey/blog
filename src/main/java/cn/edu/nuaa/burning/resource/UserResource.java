@@ -42,6 +42,13 @@ public class UserResource {
         return Response.ok(userResp).build();
     }
 
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public UserResp info(@PathParam("id") String id) {
+        return new UserResp(userService.findUserById(id));
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
