@@ -108,21 +108,16 @@ public class ArticleResource {
         articleService.deleteArticle(userId, id);
     }
 
-    @GET
-    @Path("{articleId}/likes/")
-    public List<UserResp> getLikes(@PathParam("articleId") String id) {
-        return userToResp(articleService.findLikeById(id), id);
-    }
-
     @POST
     @Path("{articleId}/likes")
-    public List<UserResp> addLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
+    public void addLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
         String userId = PermissionUtils.findId(request);
-        return userToResp(articleService.addLike(userId, id), id);
+        articleService.addLike(userId, id);
     }
 
     @DELETE
     @Path("{articleId}/likes/")
+    @Produces(MediaType.APPLICATION_JSON)
     public void deleteLikes(@PathParam("articleId") String id, @Context HttpServletRequest request) {
         String userId = PermissionUtils.findId(request);
         articleService.deleteLike(userId, id);
@@ -130,27 +125,17 @@ public class ArticleResource {
 
     @GET
     @Path("{articleId}/comments")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Comment> getComments(@PathParam("articleId") String id) {
         return articleService.findCommentByArticle(id);
     }
 
     @POST
     @Path("{articleId}/comments")
+    @Produces(MediaType.APPLICATION_JSON)
     public Comment addComment(Comment comment, @PathParam("articleId") String id, @Context HttpServletRequest request) {
         String userId = PermissionUtils.findId(request);
         comment.setFromUserId(userId);
         return articleService.addComment(id, comment);
-    }
-
-    private List<UserResp> userToResp(List<String> userIds, String id) {
-        List<UserResp> users = Lists.newArrayList();
-        UserResp userResp;
-        User user;
-        for (int i = 0; i < userIds.size(); i++) {
-            user = userService.findUserById(id);
-            userResp = new UserResp(user);
-            users.add(userResp);
-        }
-        return users;
     }
 }
