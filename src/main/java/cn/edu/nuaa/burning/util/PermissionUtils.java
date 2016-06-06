@@ -32,4 +32,8 @@ public abstract class PermissionUtils {
         }
         return sessionId;
     }
+
+    public static Boolean checkAdmin(HttpServletRequest request) {
+        return (Boolean) request.getSession().getAttribute("admin");
+    }
 }
